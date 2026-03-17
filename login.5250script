@@ -13,6 +13,7 @@ DEF login($username, $password)
     TYPE "$password"
     PRESS ENTER
     autosignoff($username, $password)
+    display_program_messages()
 ENDDEF
 
 # Auto signoff the last job if needed.
@@ -28,16 +29,16 @@ DEF autosignoff($username, $password)
     ENDIF
 ENDDEF
 
-#===============================================================
+# Display Program Messages
+DEF display_program_messages()
+    EXTRACT $title LINE 1
+    IF $title CONTAINS "Display Program Messages" THEN
+        MOVE CURSOR AT (1,1)
+        MOVE CURSOR AT NEXT INPUTFIELD
+        PRESS ENTER
+    ENDIF
+ENDDEF
 
-# When used as a startup script, $USERNAME and $PASSWORD are
-# automatically set from the session credentials.
-# Fallback to defaults if not provided.
-IF $USERNAME == "0" THEN
-    SET $USERNAME "QSECOFR"
-ENDIF
-IF $PASSWORD == "0" THEN
-    SET $PASSWORD "QSECOFR0"
-ENDIF
+#===============================================================
 
 login($USERNAME, $PASSWORD)
