@@ -41,4 +41,11 @@ ENDDEF
 
 #===============================================================
 
-login($USERNAME, $PASSWORD)
+# Check if the username and password are defined.
+IF NOT ISSET($SESSION_USERNAME) OR NOT ISSET($SESSION_PASSWORD) THEN
+    LOG "Username and password are not defined"
+    INPUT "Enter the username: " $SESSION_USERNAME
+    INPUT "Enter the password: " $SESSION_PASSWORD
+ENDIF
+
+login($SESSION_USERNAME, $SESSION_PASSWORD)
