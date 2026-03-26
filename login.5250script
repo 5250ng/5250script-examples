@@ -6,14 +6,18 @@
 
 # Login to the system and auto signoff the last job if needed.
 DEF login($username, $password)
-    MOVE CURSOR AT (1,1)
-    MOVE CURSOR AT NEXT INPUTFIELD
-    TYPE "$username"
-    MOVE CURSOR AT NEXT INPUTFIELD
-    TYPE "$password"
-    PRESS ENTER
-    autosignoff($username, $password)
-    display_program_messages()
+    EXPECT TEXT "Sign On" AT ROW 1
+    EXTRACT $title LINE 1
+    IF $title CONTAINS "Attempt to Recover Interactive Job" THEN
+        MOVE CURSOR AT (1,1)
+        MOVE CURSOR AT NEXT INPUTFIELD
+        TYPE "$username"
+        MOVE CURSOR AT NEXT INPUTFIELD
+        TYPE "$password"
+        PRESS ENTER
+        autosignoff($username, $password)
+        display_program_messages()
+    ENDIF
 ENDDEF
 
 # Auto signoff the last job if needed.
